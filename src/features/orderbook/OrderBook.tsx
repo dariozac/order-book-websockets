@@ -5,8 +5,10 @@ import { ProductIDs, productIDs, switchProduct } from "./productSlice";
 import { getBids, bids } from "./bidOrdersSlice";
 import SpreadBox from "./spreadbox";
 import OrderList from "./orderList";
-import { OrderMap } from "./orderBookTypes";
+import { OrderMap, OrderType } from "./orderBookTypes";
 import { getAsks, asks } from "./askOrdersSlice";
+
+import "./Orderbook.module.css";
 
 const OrderBook = () => {
   const product = useAppSelector<ProductIDs>(productIDs);
@@ -14,10 +16,12 @@ const OrderBook = () => {
   const asksMap = useAppSelector<OrderMap>(asks);
   const dispatch = useAppDispatch();
 
+  const [baseTotal, setBaseTotal] = React.useState<number | undefined>(0);
+  const [paused, setPaused] = React.useState<boolean>(true);
+
   React.useEffect(() => {
     const wsUrl = "wss://www.cryptofacilities.com/ws/v1";
     const ws = new WebSocket(wsUrl);
-    console.log("websoct prod", [product]);
     ws.onopen = () => {
       ws.send(
         JSON.stringify({
@@ -42,31 +46,78 @@ const OrderBook = () => {
     return () => {
       ws.close();
     };
-  }, [dispatch, product]);
+  }, [dispatch, product, paused]);
+
+  React.useEffect(() => {
+    const baseTotalDenominator = (): number | undefined => {
+      const bidTotalSize: number | undefined =
+        bidsMap != null ? Array.from(bidsMap?.values())[9]?.total : undefined;
+      const askTotalSize: number | undefined =
+        asksMap != null ? Array.from(asksMap?.values())[9]?.total : undefined;
+
+      if (!bidTotalSize || !askTotalSize) {
+        return undefined;
+      }
+
+      return bidTotalSize > askTotalSize ? bidTotalSize : askTotalSize;
+    };
+
+    setBaseTotal(baseTotalDenominator);
+  }, [asksMap, bidsMap]);
+
+  if (paused) {
+    return (
+      <button
+        onClick={() => {
+
+          setPaused(false);
+        }}
+      >
+        start
+      </button>
+    );
+  }
 
   return (
-    <>
+    <div className={"#orderbook"}>
       <h1>Order Book {product}</h1>
-      <button onClick={() => dispatch(switchProduct())}>Toggle</button>
-      <ul>
-        <h2>Asks {asksMap?.size}</h2>
-        <OrderList product={product}
-          list={
-            asksMap != null ? Array.from(asksMap?.values()).slice(0, 12) : []
-          }
-        />
-        <SpreadBox
-          bid={bidsMap != null ? Array.from(bidsMap?.values())[0] : undefined}
-          ask={asksMap != null ? Array.from(asksMap?.values())[0] : undefined}
-        />
-        <OrderList product={product}
-          list={
-            bidsMap != null ? Array.from(bidsMap?.values()).slice(0, 12) : []
-          }
-        />
-      </ul>
-      <h2>bids {bidsMap?.size}</h2>
-    </>
+      <SpreadBox
+        id={"spread-box-desktop"}
+        bid={bidsMap != null ? Array.from(bidsMap?.values())[0] : undefined}
+        ask={asksMap != null ? Array.from(asksMap?.values())[0] : undefined}
+      />
+
+      {/* <h2>Asks {asksMap?.size}</h2> */}
+      <OrderList
+        product={product}
+        list={asksMap != null ? Array.from(asksMap?.values()).slice(0, 12) : []}
+        baseDenominator={baseTotal}
+        orderType={OrderType.Ask}
+      />
+
+      <SpreadBox
+        id={"spread-box-mobile"}
+        bid={bidsMap != null ? Array.from(bidsMap?.values())[0] : undefined}
+        ask={asksMap != null ? Array.from(asksMap?.values())[0] : undefined}
+      />
+
+      <OrderList
+        product={product}
+        list={bidsMap != null ? Array.from(bidsMap?.values()).slice(0, 12) : []}
+        baseDenominator={baseTotal}
+        orderType={OrderType.Bid}
+      />
+      {/* <h2>bids {bidsMap?.size}</h2> */}
+
+      <div id="footer">
+        <button
+          id={"toggle-feed-btn"}
+          onClick={() => dispatch(switchProduct())}
+        >
+          Toggle
+        </button>
+      </div>
+    </div>
   );
 };
 
