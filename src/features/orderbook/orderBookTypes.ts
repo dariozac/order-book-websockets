@@ -9,4 +9,9 @@ export enum ProductIDs {
       total: number | undefined;
   }
 
+  export enum OrderType {
+    Bid = 'bid',
+    Ask = 'ask'
+  }
+
   export type OrderMap = Map<number, OrderBlock>

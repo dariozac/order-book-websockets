@@ -1,0 +1,11 @@
+
+#orderbook{
+    background-color: rgb(33, 41, 41);
+    color: whitesmoke;
+    display: flex;
+    flex-direction: row;
+}
+
+table {
+    width: 100%;
+}
