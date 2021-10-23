@@ -11,7 +11,7 @@ interface Props {
 
 const OrderList = ({ list, product, baseDenominator, orderType }: Props) => {
   return (
-    <React.Fragment>
+    <div>
       {list
         .slice(0, 10)
         .sort((a, b) => b.price - a.price)
@@ -25,7 +25,7 @@ const OrderList = ({ list, product, baseDenominator, orderType }: Props) => {
             orderType={orderType}
             />;
         })}
-    </React.Fragment>
+    </div>
   );
 };
 

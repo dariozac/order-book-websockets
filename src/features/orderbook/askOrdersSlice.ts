@@ -12,7 +12,7 @@ export interface AskOrdersState {
     asksMap: new Map(),
   };
 
-  const processAsks = (currentAsks: OrderMap, newAsks: number[][]): OrderMap => {
+ export const processAsks = (currentAsks: OrderMap, newAsks: number[][]): OrderMap => {
     const newAsksMap = new Map<number, OrderBlock>();
     const oldAsks = currentAsks;
   
