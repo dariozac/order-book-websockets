@@ -9,15 +9,22 @@ import { OrderMap, OrderType } from "./orderBookTypes";
 import { getAsks, asks } from "./askOrdersSlice";
 
 import "./Orderbook.module.css";
+import { usePageVisibility } from "./utils/visibility";
+
 
 const OrderBook = () => {
+
+  
+  
   const product = useAppSelector<ProductIDs>(productIDs);
   const bidsMap = useAppSelector<OrderMap>(bids);
   const asksMap = useAppSelector<OrderMap>(asks);
   const dispatch = useAppDispatch();
 
   const [baseTotal, setBaseTotal] = React.useState<number | undefined>(0);
-  const [paused, setPaused] = React.useState<boolean>(true);
+  const [paused, setPaused] = React.useState<boolean>(false);
+  const isVisible = usePageVisibility();
+
 
   React.useEffect(() => {
     const wsUrl = "wss://www.cryptofacilities.com/ws/v1";
@@ -33,6 +40,11 @@ const OrderBook = () => {
     };
 
     ws.onmessage = (e) => {
+      if(!isVisible){
+        return () => {
+          ws.close();
+        };
+      }
       const data = JSON.parse(e.data);
       dispatch(getBids(data.bids));
       dispatch(getAsks(data.asks));
@@ -46,7 +58,7 @@ const OrderBook = () => {
     return () => {
       ws.close();
     };
-  }, [dispatch, product, paused]);
+  }, [dispatch, product, paused, isVisible]);
 
   React.useEffect(() => {
     const baseTotalDenominator = (): number | undefined => {
@@ -65,7 +77,19 @@ const OrderBook = () => {
     setBaseTotal(baseTotalDenominator);
   }, [asksMap, bidsMap]);
 
-  if (paused) {
+  React.useEffect(()=>{
+// Change the title based on page visibility
+if (isVisible) {
+  
+  document.title = "Active";
+} else {
+  setPaused(true)
+  document.title = "Inactive";
+}
+
+  }, [isVisible])
+
+  if (paused || !isVisible) {
     return (
       <button
         onClick={() => {
