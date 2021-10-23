@@ -46,7 +46,6 @@ const OrderBook = () => {
         };
       }
       const data = JSON.parse(e.data);
-      debugger;
       dispatch(getBids(data.bids));
       dispatch(getAsks(data.asks));
     };
