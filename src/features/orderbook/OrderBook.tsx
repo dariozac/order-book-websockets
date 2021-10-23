@@ -9,7 +9,7 @@ import { OrderMap, OrderType } from "./orderBookTypes";
 import { getAsks, asks } from "./askOrdersSlice";
 
 import "./Orderbook.module.css";
-import { usePageVisibility } from "./utils/visibility";
+import { usePageVisibility } from "./utils/visibility.js";
 
 
 const OrderBook = () => {
@@ -43,7 +43,6 @@ const OrderBook = () => {
       if(!isVisible){
         return () => {
           ws.close();
-
         };
       }
       const data = JSON.parse(e.data);
