@@ -9,15 +9,22 @@ import { OrderMap, OrderType } from "./orderBookTypes";
 import { getAsks, asks } from "./askOrdersSlice";
 
 import "./Orderbook.module.css";
+import { usePageVisibility } from "./utils/visibility";
+
 
 const OrderBook = () => {
+
+  
+  
   const product = useAppSelector<ProductIDs>(productIDs);
   const bidsMap = useAppSelector<OrderMap>(bids);
   const asksMap = useAppSelector<OrderMap>(asks);
   const dispatch = useAppDispatch();
 
   const [baseTotal, setBaseTotal] = React.useState<number | undefined>(0);
-  const [paused, setPaused] = React.useState<boolean>(true);
+  const [paused, setPaused] = React.useState<boolean>(false);
+  const isVisible = usePageVisibility();
+
 
   React.useEffect(() => {
     const wsUrl = "wss://www.cryptofacilities.com/ws/v1";
@@ -33,6 +40,12 @@ const OrderBook = () => {
     };
 
     ws.onmessage = (e) => {
+      if(!isVisible){
+        return () => {
+          ws.close();
+
+        };
+      }
       const data = JSON.parse(e.data);
       dispatch(getBids(data.bids));
       dispatch(getAsks(data.asks));
@@ -46,7 +59,7 @@ const OrderBook = () => {
     return () => {
       ws.close();
     };
-  }, [dispatch, product, paused]);
+  }, [dispatch, product, paused, isVisible]);
 
   React.useEffect(() => {
     const baseTotalDenominator = (): number | undefined => {
@@ -65,7 +78,19 @@ const OrderBook = () => {
     setBaseTotal(baseTotalDenominator);
   }, [asksMap, bidsMap]);
 
-  if (paused) {
+  React.useEffect(()=>{
+// Change the title based on page visibility
+if (isVisible) {
+  
+  document.title = "Active";
+} else {
+  setPaused(true)
+  document.title = "Inactive";
+}
+
+  }, [isVisible])
+
+  if (paused || !isVisible) {
     return (
       <button
         onClick={() => {
@@ -86,9 +111,8 @@ const OrderBook = () => {
         bid={bidsMap != null ? Array.from(bidsMap?.values())[0] : undefined}
         ask={asksMap != null ? Array.from(asksMap?.values())[0] : undefined}
       />
-
-      {/* <h2>Asks {asksMap?.size}</h2> */}
-      <OrderList
+<div id="order-lists">
+<OrderList
         product={product}
         list={asksMap != null ? Array.from(asksMap?.values()).slice(0, 12) : []}
         baseDenominator={baseTotal}
@@ -107,8 +131,7 @@ const OrderBook = () => {
         baseDenominator={baseTotal}
         orderType={OrderType.Bid}
       />
-      {/* <h2>bids {bidsMap?.size}</h2> */}
-
+</div>
       <div id="footer">
         <button
           id={"toggle-feed-btn"}
