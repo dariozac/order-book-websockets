@@ -31,6 +31,35 @@ color: white;
 padding: 25px;
 }
 
+#orderbook {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.orderbox-container{
+
+  }
+  .orderbox-column {
+      margin-right: 10px;
+  }
+  
+  .order-price {
+      
+  }
+  
+  .order-size {
+      color: white;
+  }
+  
+  .order-total {
+     color: white;
+  }
+  
+  
+    
+
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {

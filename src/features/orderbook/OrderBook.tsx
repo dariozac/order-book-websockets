@@ -9,7 +9,7 @@ import { OrderMap, OrderType } from "./orderBookTypes";
 import { getAsks, asks } from "./askOrdersSlice";
 
 import "./Orderbook.module.css";
-import { usePageVisibility } from "./utils/visibility";
+import { usePageVisibility } from "./utils/visibility.js";
 
 
 const OrderBook = () => {
@@ -110,9 +110,8 @@ if (isVisible) {
         bid={bidsMap != null ? Array.from(bidsMap?.values())[0] : undefined}
         ask={asksMap != null ? Array.from(asksMap?.values())[0] : undefined}
       />
-
-      {/* <h2>Asks {asksMap?.size}</h2> */}
-      <OrderList
+<div id="order-lists">
+<OrderList
         product={product}
         list={asksMap != null ? Array.from(asksMap?.values()).slice(0, 12) : []}
         baseDenominator={baseTotal}
@@ -131,8 +130,7 @@ if (isVisible) {
         baseDenominator={baseTotal}
         orderType={OrderType.Bid}
       />
-      {/* <h2>bids {bidsMap?.size}</h2> */}
-
+</div>
       <div id="footer">
         <button
           id={"toggle-feed-btn"}
