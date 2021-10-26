@@ -21,12 +21,10 @@ export const productSlice = createSlice({
   initialState,
   reducers: {
     switchProduct: (state) => {
-
       state.productIDs === ProductIDs.XBTUSD
         ? state.productIDs = ProductIDs.ETHUSD
         : state.productIDs = ProductIDs.XBTUSD;
     },
-
   },
  
 });

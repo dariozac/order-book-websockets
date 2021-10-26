@@ -20,7 +20,6 @@ const processBids = (currentBids: OrderMap, newBids: number[][]): OrderMap => {
   }
   for (let bid of newBids?.sort((a, b) => b[0] - a[0])) {
     if (bid[1] === 0) {
-      console.log("bid deleted", bid[0]);
       oldBids.delete(bid[0]);
     } else {
       newBidsMap.set(bid[0], {
