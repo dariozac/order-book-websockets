@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState, AppThunk } from "../../app/store";
+import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
 
 export enum ProductIDs {
   XBTUSD = "PI_XBTUSD",
