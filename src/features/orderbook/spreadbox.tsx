@@ -9,14 +9,14 @@ interface Props {
 
 const SpreadBox = ({ bid, ask, id }: Props) => {
     if(!bid || !ask){
-        return <p>no bid or offer</p>
+        return <p>no bid or ask</p>
     }
   const spread = ask.price - bid.price;
   return (
-    <div id={id} style={{ border: "1px red solid" }}>
-      Spread {spread} - {((spread / bid.price) * 100).toFixed(5)}%
+    <div id={id} style={{ }}>
+      Spread {(spread).toFixed(1)} ({((spread / bid.price) * 100).toFixed(2)}%)
     </div>
   );
 };
 
-export default SpreadBox;
+export default React.memo(SpreadBox);

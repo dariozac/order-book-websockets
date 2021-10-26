@@ -15,6 +15,15 @@ export const store = configureStore({
     bids: bidsReducer,
     asks: asksReducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(
+    {
+      serializableCheck: {
+        ignoredActions: [],
+        ignoredActionPaths: [],
+        ignoredPaths: ['bids.bidsMap', 'asks.asksMap'],
+      },
+    }
+  )
 });
 
 export type AppDispatch = typeof store.dispatch;
