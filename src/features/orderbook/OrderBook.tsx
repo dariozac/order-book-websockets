@@ -5,17 +5,13 @@ import { ProductIDs, productIDs, switchProduct } from "./productSlice";
 import { getBids, bids } from "./bidOrdersSlice";
 import SpreadBox from "./spreadbox";
 import OrderList from "./orderList";
-import { OrderMap, OrderType } from "./orderBookTypes";
+import { OrderMap, OrderType, ViewType } from "./orderBookTypes";
 import { getAsks, asks } from "./askOrdersSlice";
 
 import "./Orderbook.module.css";
 import { usePageVisibility } from "./utils/visibility.js";
 
-
 const OrderBook = () => {
-
-  
-  
   const product = useAppSelector<ProductIDs>(productIDs);
   const bidsMap = useAppSelector<OrderMap>(bids);
   const asksMap = useAppSelector<OrderMap>(asks);
@@ -24,7 +20,6 @@ const OrderBook = () => {
   const [baseTotal, setBaseTotal] = React.useState<number | undefined>(0);
   const [paused, setPaused] = React.useState<boolean>(false);
   const isVisible = usePageVisibility();
-
 
   React.useEffect(() => {
     const wsUrl = "wss://www.cryptofacilities.com/ws/v1";
@@ -40,7 +35,7 @@ const OrderBook = () => {
     };
 
     ws.onmessage = (e) => {
-      if(!isVisible){
+      if (!isVisible) {
         return () => {
           ws.close();
         };
@@ -77,23 +72,20 @@ const OrderBook = () => {
     setBaseTotal(baseTotalDenominator);
   }, [asksMap, bidsMap]);
 
-  React.useEffect(()=>{
-// Change the title based on page visibility
-if (isVisible) {
-  
-  document.title = "Active";
-} else {
-  setPaused(true)
-  document.title = "Inactive";
-}
-
-  }, [isVisible])
+  React.useEffect(() => {
+    // Change the title based on page visibility
+    if (isVisible) {
+      document.title = "Active";
+    } else {
+      setPaused(true);
+      document.title = "Inactive";
+    }
+  }, [isVisible]);
 
   if (paused || !isVisible) {
     return (
       <button
         onClick={() => {
-
           setPaused(false);
         }}
       >
@@ -104,36 +96,43 @@ if (isVisible) {
 
   return (
     <div className={"#orderbook"}>
-      <h1>Order Book {product}</h1>
-      <SpreadBox
-        id={"spread-box-desktop"}
-        bid={bidsMap != null ? Array.from(bidsMap?.values())[0] : undefined}
-        ask={asksMap != null ? Array.from(asksMap?.values())[0] : undefined}
-      />
-<div id="order-lists">
-<OrderList
-        product={product}
-        list={asksMap != null ? Array.from(asksMap?.values()).slice(0, 12) : []}
-        baseDenominator={baseTotal}
-        orderType={OrderType.Ask}
-      />
-
-      <SpreadBox
-        id={"spread-box-mobile"}
-        bid={bidsMap != null ? Array.from(bidsMap?.values())[0] : undefined}
-        ask={asksMap != null ? Array.from(asksMap?.values())[0] : undefined}
-      />
-
-      <OrderList
-        product={product}
-        list={bidsMap != null ? Array.from(bidsMap?.values()).slice(0, 12) : []}
-        baseDenominator={baseTotal}
-        orderType={OrderType.Bid}
-      />
-</div>
+      <div id={"header"}>
+        <span>Order Book {product}</span>
+        <SpreadBox
+          id={"spread-box-desktop"}
+          bid={bidsMap != null ? Array.from(bidsMap?.values())[0] : undefined}
+          ask={asksMap != null ? Array.from(asksMap?.values())[0] : undefined}
+        />
+        <div className={"right-span"} />
+      </div>
+      <div id="order-lists">
+        <OrderList
+          product={product}
+          list={
+            bidsMap != null ? Array.from(bidsMap?.values()).slice(0, 12) : []
+          }
+          baseDenominator={baseTotal}
+          orderType={OrderType.Bid}
+          viewType={ViewType.Desktop}
+        />
+        <SpreadBox
+          id={"spread-box-mobile"}
+          bid={bidsMap != null ? Array.from(bidsMap?.values())[0] : undefined}
+          ask={asksMap != null ? Array.from(asksMap?.values())[0] : undefined}
+        />
+        <OrderList
+          product={product}
+          list={
+            asksMap != null ? Array.from(asksMap?.values()).slice(0, 12) : []
+          }
+          baseDenominator={baseTotal}
+          orderType={OrderType.Ask}
+          viewType={ViewType.Desktop}
+        />
+      </div>
       <div id="footer">
         <button
-          id={"toggle-feed-btn"}
+          className={"toggle-button"}
           onClick={() => dispatch(switchProduct())}
         >
           Toggle
