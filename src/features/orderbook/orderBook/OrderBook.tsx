@@ -1,15 +1,15 @@
 import * as React from "react";
 
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { ProductIDs, productIDs, switchProduct } from "./productSlice";
-import { getBids, bids } from "./bidOrdersSlice";
-import SpreadBox from "./spreadbox";
-import OrderList from "./orderList";
-import { OrderMap, OrderType, ViewType } from "./orderBookTypes";
-import { getAsks, asks } from "./askOrdersSlice";
+import { useAppSelector, useAppDispatch } from "../../../app/hooks";
+import { ProductIDs, productIDs, switchProduct } from "../productSlice";
+import { getBids, bids } from "../bids/bidOrdersSlice";
+import SpreadBox from "../spreadbox";
+import OrderList from "../orderLists/orderList";
+import { OrderMap, OrderType, ViewType } from "../orderBookTypes";
+import { getAsks, asks } from "../asks/askOrdersSlice";
 
-import "./Orderbook.module.css";
-import { usePageVisibility } from "./utils/visibility.js";
+import styles from "./Orderbook.module.css";
+import { usePageVisibility } from "../utils/visibility.js";
 
 const OrderBook = () => {
   const product = useAppSelector<ProductIDs>(productIDs);
@@ -84,7 +84,7 @@ const OrderBook = () => {
 
   if (paused || !isVisible) {
     return (
-      <button
+      <button className={styles.pauseButton}
         onClick={() => {
           setPaused(false);
         }}
@@ -95,17 +95,17 @@ const OrderBook = () => {
   }
 
   return (
-    <div className={"#orderbook"}>
-      <div id={"header"}>
+    <div className={styles.orderbook}>
+      <div className={styles.header}>
         <span>Order Book {product}</span>
         <SpreadBox
-          id={"spread-box-desktop"}
+          id={styles.spreadBoxDesktop}
           bid={bidsMap != null ? Array.from(bidsMap?.values())[0] : undefined}
           ask={asksMap != null ? Array.from(asksMap?.values())[0] : undefined}
         />
-        <div className={"right-span"} />
+        <div className={styles.rightSpan} />
       </div>
-      <div id="order-lists">
+      <div className={styles.orderLists}>
         <OrderList
           product={product}
           list={
@@ -130,9 +130,9 @@ const OrderBook = () => {
           viewType={ViewType.Desktop}
         />
       </div>
-      <div id="footer">
+      <div id="footer" className={styles.footer}>
         <button
-          className={"toggle-button"}
+          className={styles.toggleButton}
           onClick={() => dispatch(switchProduct())}
         >
           Toggle

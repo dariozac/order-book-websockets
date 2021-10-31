@@ -1,7 +1,7 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import counterReducer from "../features/counter/counterSlice";
-import bidsReducer from "../features/orderbook/bidOrdersSlice";
-import asksReducer from "../features/orderbook/askOrdersSlice";
+import bidsReducer from "../features/orderbook/bids/bidOrdersSlice";
+import asksReducer from "../features/orderbook/asks/askOrdersSlice";
 import productReducer from "../features/orderbook/productSlice";
 
 import { enableMapSet } from 'immer'

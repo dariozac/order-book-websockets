@@ -1,0 +1,35 @@
+#spread-box-desktop {
+  margin: 0 auto;
+}
+header {
+  display: flex;
+  flex: 1;
+}
+
+.orderLists {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.rightSpan {
+  flex: 1;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.toggleButton {
+  text-align: center;
+  color: white;
+  background-color: slateblue;
+  border: none;
+  padding: 5px 10px;
+}
+
+.pauseButton {
+  background-color: crimson;
+}
