@@ -1,21 +1,20 @@
-#spread-box-desktop {
-  margin: 0 auto;
-}
+
 header {
   display: flex;
-  flex: 1;
+  justify-content: space-between;
+}
+#spread-box-desktop {
+flex-grow: 1;
 }
 
+.rightSpan {
+  flex-grow: 2;
+}
 .orderLists {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
-
-.rightSpan {
-  flex: 1;
-}
-
 .footer {
   display: flex;
   justify-content: center;
