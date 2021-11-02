@@ -13,7 +13,7 @@ const SpreadBox = ({ bid, ask, id }: Props) => {
     }
   const spread = ask.price - bid.price;
   return (
-    <div id={id} style={{ }}>
+    <div id={id} style={{flexGrow: 1 }}>
       Spread {(spread).toFixed(1)} ({((spread / bid.price) * 100).toFixed(2)}%)
     </div>
   );

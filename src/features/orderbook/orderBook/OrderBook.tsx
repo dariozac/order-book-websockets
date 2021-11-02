@@ -97,7 +97,7 @@ const OrderBook = () => {
   return (
     <div className={styles.orderbook}>
       <div className={styles.header}>
-        <span>Order Book {product}</span>
+        <div>Order Book {product}</div>
         <SpreadBox
           id={styles.spreadBoxDesktop}
           bid={bidsMap != null ? Array.from(bidsMap?.values())[0] : undefined}
