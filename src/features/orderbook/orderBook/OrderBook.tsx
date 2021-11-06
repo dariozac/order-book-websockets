@@ -3,7 +3,7 @@ import * as React from "react";
 import { useAppSelector, useAppDispatch } from "../../../app/hooks";
 import { ProductIDs, productIDs, switchProduct } from "../productSlice";
 import { getBids, bids } from "../bids/bidOrdersSlice";
-import SpreadBox from "../spreadbox";
+import SpreadBox from "../spreadBox/spreadbox";
 import OrderList from "../orderLists/orderList";
 import { OrderMap, OrderType, ViewType } from "../orderBookTypes";
 import { getAsks, asks } from "../asks/askOrdersSlice";
