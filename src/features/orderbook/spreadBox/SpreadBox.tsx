@@ -1,5 +1,5 @@
 import * as React from "react";
-import { OrderBlock } from "./orderBookTypes";
+import { OrderBlock } from "../orderBookTypes";
 
 interface Props {
   bid?: OrderBlock;

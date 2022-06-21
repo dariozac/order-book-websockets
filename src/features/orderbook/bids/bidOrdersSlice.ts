@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
-import { OrderMap, OrderBlock } from "./orderBookTypes";
-import { switchProduct } from "./productSlice";
+import { RootState } from "../../../app/store";
+import { OrderMap, OrderBlock } from "../orderBookTypes";
+import { switchProduct } from "../productSlice";
 
 export interface BidOrdersState {
   bidsMap: OrderMap;
@@ -51,7 +51,7 @@ const processBids = (currentBids: OrderMap, newBids: number[][]): OrderMap => {
 
   withTotals
     .sort((a, b) => b.price - a.price)
-    .forEach((x) => mapWithTotals.set(x.price, x));
+    .forEach((priceBlock) => mapWithTotals.set(priceBlock.price, priceBlock));
 
   return mapWithTotals;
 };

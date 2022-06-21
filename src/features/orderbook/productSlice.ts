@@ -8,12 +8,13 @@ export enum ProductIDs {
 
 export interface ProductState {
   productIDs: ProductIDs;
-  status: "idle" | "loading" | "failed";
+  status: "up" | "loading" | "error";
+  error?: string;
 }
 
 const initialState: ProductState = {
   productIDs: ProductIDs.XBTUSD,
-  status: "idle",
+  status: "up",
 };
 
 export const productSlice = createSlice({
@@ -22,12 +23,15 @@ export const productSlice = createSlice({
   reducers: {
     switchProduct: (state) => {
       state.productIDs === ProductIDs.XBTUSD
-        ? state.productIDs = ProductIDs.ETHUSD
-        : state.productIDs = ProductIDs.XBTUSD;
+        ? (state.productIDs = ProductIDs.ETHUSD)
+        : (state.productIDs = ProductIDs.XBTUSD);
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
     },
   },
- 
 });
-export const { switchProduct } = productSlice.actions;
+export const { switchProduct, setError } = productSlice.actions;
 export const productIDs = (state: RootState) => state.product.productIDs;
+export const error = (state: RootState) => state.product.error;
 export default productSlice.reducer;

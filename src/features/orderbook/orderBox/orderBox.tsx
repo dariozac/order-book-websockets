@@ -1,7 +1,7 @@
 import * as React from "react";
-import { currencyFormat } from "./utils/utils";
-import { OrderBlock, OrderType, ViewType } from "./orderBookTypes";
-import "./OrderBox.module.css";
+import { currencyFormat } from "../utils/utils";
+import { OrderBlock, OrderType, ViewType } from "../orderBookTypes";
+import styles from "./OrderBox.module.css";
 
 interface Props extends OrderBlock {
   baseDenominator: number | undefined;
@@ -17,17 +17,17 @@ const getColumns = (
   if (orderType === OrderType.Ask && viewType === ViewType.Desktop) {
     return (
       <>
-        <div className={"td order-price"}>{currencyFormat(price)}</div>
-        <div className={"td order-size"}>{size.toLocaleString("en")}</div>
-        <div className={"td order-total"}>{total?.toLocaleString("en")}</div>
+        <div data-testid='ask-order-price' className={`${styles.td} ${styles.orderPrice}`}>{currencyFormat(price)}</div>
+        <div data-testid='ask-order-size' className={`${styles.td} ${styles.orderSize}`}>{size.toLocaleString("en")}</div>
+        <div data-testid='desktop-ask-order-total' className={`${styles.td} ${styles.orderTotal}`}>{total?.toLocaleString("en")}</div>
       </>
     );
   }
   return (
     <>
-      <div className={"td order-total"}>{total?.toLocaleString("en")}</div>
-      <div className={"td order-size"}>{size.toLocaleString("en")}</div>
-      <div className={"td order-price"}>{currencyFormat(price)}</div>
+      <div className={`${styles.td} ${styles.orderTotal}`}>{total?.toLocaleString("en")}</div>
+      <div className={`${styles.td} ${styles.orderSize}`}>{size.toLocaleString("en")}</div>
+      <div data-testid='mobile-ask-order-price' className={`${styles.td} ${styles.orderPrice}`}>{currencyFormat(price)}</div>
     </>
   );
 };
@@ -42,7 +42,7 @@ const OrderBox = ({
 }: Props): JSX.Element => {
   return (
     <div
-      className={"tr"}
+      className={styles.tr}
       style={{
         background: `linear-gradient(${
           orderType === OrderType.Ask && viewType === ViewType.Desktop

@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
+import { RootState } from "../../../app/store";
 
-import {OrderBlock, OrderMap} from './orderBookTypes';
-import { switchProduct } from "./productSlice";
+import {OrderBlock, OrderMap} from '../orderBookTypes';
+import { switchProduct } from "../productSlice";
   
 export interface AskOrdersState {
     asksMap: OrderMap;

@@ -1,0 +1,42 @@
+.orderPrice {
+    padding-left: 2.5em;
+    padding-right: 2.5em;
+}
+
+.orderSize {
+    color: white;
+    padding-left: 2.5em;
+    padding-right: 2.5em
+}
+
+.orderTotal {
+    color: white;
+    padding-left: 2.5em;
+    padding-right: 2.5em
+}
+
+.td {
+    display: flex;
+    flex-flow: row nowrap;
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: 0.5em;
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+    white-space: nowrap;
+    justify-content: flex-end;
+}
+
+.tr {
+    background-position: "left";
+    flex-direction: "row";
+    justify-items: "center";
+    font-size: .8rem;
+    line-height: 1.2;
+    flex: '1 1 auto';
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+}
