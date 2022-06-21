@@ -9,6 +9,8 @@ interface Props {
   baseDenominator: number | undefined;
   orderType: OrderType;
   viewType: ViewType;
+  isMobile: boolean;
+  isTabletOrDesktop: boolean;
 }
 
 const getList = (
@@ -30,6 +32,8 @@ const OrderList = ({
   product,
   baseDenominator,
   orderType,
+  isMobile,
+  isTabletOrDesktop
 }: Props) => {
 
   return (
@@ -44,6 +48,7 @@ const OrderList = ({
                 return <div key={col} className={styles.td}>{col}</div>;
               })
               .reverse()}
+               
       </div>
       {getList(list, viewType, orderType)
         .slice(0, 10)

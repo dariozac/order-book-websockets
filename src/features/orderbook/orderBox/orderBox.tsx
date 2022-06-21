@@ -17,9 +17,9 @@ const getColumns = (
   if (orderType === OrderType.Ask && viewType === ViewType.Desktop) {
     return (
       <>
-        <div className={`${styles.td} ${styles.orderPrice}`}>{currencyFormat(price)}</div>
-        <div className={`${styles.td} ${styles.orderSize}`}>{size.toLocaleString("en")}</div>
-        <div className={`${styles.td} ${styles.orderTotal}`}>{total?.toLocaleString("en")}</div>
+        <div data-testid='ask-order-price' className={`${styles.td} ${styles.orderPrice}`}>{currencyFormat(price)}</div>
+        <div data-testid='ask-order-size' className={`${styles.td} ${styles.orderSize}`}>{size.toLocaleString("en")}</div>
+        <div data-testid='desktop-ask-order-total' className={`${styles.td} ${styles.orderTotal}`}>{total?.toLocaleString("en")}</div>
       </>
     );
   }
@@ -27,7 +27,7 @@ const getColumns = (
     <>
       <div className={`${styles.td} ${styles.orderTotal}`}>{total?.toLocaleString("en")}</div>
       <div className={`${styles.td} ${styles.orderSize}`}>{size.toLocaleString("en")}</div>
-      <div className={`${styles.td} ${styles.orderPrice}`}>{currencyFormat(price)}</div>
+      <div data-testid='mobile-ask-order-price' className={`${styles.td} ${styles.orderPrice}`}>{currencyFormat(price)}</div>
     </>
   );
 };

@@ -32,3 +32,12 @@ flex-grow: 1;
 .pauseButton {
   background-color: crimson;
 }
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+
+ .orderLists{
+   flex-direction: column;
+ }
+
+}
