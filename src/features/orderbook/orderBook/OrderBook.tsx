@@ -117,7 +117,7 @@ const OrderBook = () => {
     <div className={styles.orderbook}>
       <Error errorVal={errorVal} />
       <div className={styles.header}>
-        <div>Order Book {product}</div>
+        <div>Order Book Github {product}</div>
         {isTabletOrDesktop && (
           <SpreadBox
             id={styles.spreadBoxDesktop}
